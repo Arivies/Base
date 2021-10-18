@@ -8,15 +8,22 @@
 </p>
 
 ## Proyecto Base
-
 Creado en Laravel 8 
 Autenticacion Jetstream
 Dashboard AdminLTE3
 
-**Install
--create file .env:    cp .env.example  .env 
--Config settings file .env
--composer install 
--npm install
--Generate key: php artisan key:generate
--Run migrations: php artisan migrate --seed
+<strong>Installation</strong>
+<ul>
+    <li>create file .env:    cp .env.example  .env </li>
+    <li>Config settings file .env</li>
+    <li>composer install </li>
+    <li>npm install</li>
+    <li>Generate key: php artisan key:generate</li>
+    <li>Run migrations: php artisan migrate --seed</li>
+</ul>   
+
+
+
+
+
+-
