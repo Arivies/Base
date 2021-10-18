@@ -6,15 +6,14 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
-
 ## Proyecto Base
 <strong>
 Creado en Laravel 8<br/>
 Autenticacion Jetstream<br/>
 Dashboard AdminLTE3
 </strong>
-
-<strong>Installation</strong>
+<br/>
+<strong>Installation</strong><br/>
 <ul>
     <li>create file .env:    cp .env.example  .env </li>
     <li>Config settings file .env</li>
