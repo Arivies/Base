@@ -8,9 +8,11 @@
 </p>
 
 ## Proyecto Base
-Creado en Laravel 8 
-Autenticacion Jetstream
+<strong>
+Creado en Laravel 8<br/>
+Autenticacion Jetstream<br/>
 Dashboard AdminLTE3
+</strong>
 
 <strong>Installation</strong>
 <ul>
@@ -20,10 +22,4 @@ Dashboard AdminLTE3
     <li>npm install</li>
     <li>Generate key: php artisan key:generate</li>
     <li>Run migrations: php artisan migrate --seed</li>
-</ul>   
-
-
-
-
-
--
+</ul> 
