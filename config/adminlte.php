@@ -265,14 +265,22 @@ return [
             'icon' => 'fas fa-fw fa-lock',
         ],*/
         [
-            'text'    => 'multilevel',
+            'text'    => 'Administracion',
             'icon'    => 'fas fa-fw fa-share',
             'submenu' => [
                 [
-                    'text' => 'level_one',
+                    'text' => 'Roles',
+                    'url'  => '/admin/roles',
+                ],
+                [
+                    'text' => 'Permisos',
                     'url'  => '#',
                 ],
                 [
+                    'text' => 'Usuarios',
+                    'url'  => '#',
+                ],
+/*                [
                     'text'    => 'level_one',
                     'url'     => '#',
                     'submenu' => [
@@ -295,7 +303,7 @@ return [
                             ],
                         ],
                     ],
-                ],
+                ],*/
                 [
                     'text' => 'level_one',
                     'url'  => '#',

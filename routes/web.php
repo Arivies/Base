@@ -22,14 +22,8 @@ Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');*/
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/', function () {
-    return view('admin.index');
-})->name('dashboard');
-
-
-
 /*
 Route::middleware(['auth:sanctum', 'verified'])->get('/', function () {
     return view('admin.index');
-})->name('admin');
+})->name('dashboard');
 */
