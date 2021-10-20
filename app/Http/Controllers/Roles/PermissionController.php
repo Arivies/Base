@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Roles;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-Use Spatie\Permission\Models\Role;
+Use Spatie\Permission\Models\Permission;
 
-class RoleController extends Controller
+class PermissionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +16,9 @@ class RoleController extends Controller
      */
     public function index()
     {
-        $roles = Role::query()->paginate(5);
+        $permissions = Permission::query()->paginate(5);
 
-        return view('roles.index',compact('roles'))
+        return view('permissions.index',compact('permissions'))
                 ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -29,7 +29,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('roles.create');
+        return view('permissions.create');
     }
 
     /**
@@ -40,11 +40,11 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $roles = $request->validate([
-            'name' => 'required|unique:roles'
+        $request->validate([
+            'name'=> 'required|unique:permissions'
         ]);
-        Role::create($request->all());
-        return redirect()->route('roles.index')->with('success','Se agrego rol correctamente');
+        Permission::create($request->all());
+        return redirect()->route('permissions.index')->with('success','Permiso agregado correctamente');
     }
 
     /**
@@ -53,9 +53,9 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Role $role)
+    public function show(Permission $permission)
     {
-        return view('roles.show',compact('role'));
+        return view('permissions.show',compact('permission'));
     }
 
     /**
@@ -64,9 +64,9 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Role $role)
+    public function edit(Permission $permission)
     {
-        return view('roles.edit',compact('role'));
+        return view('permissions.edit',compact('permission'));
     }
 
     /**
@@ -76,13 +76,13 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Role $role)
+    public function update(Request $request, Permission $permission)
     {
         $request->validate([
-            'name' => 'required|unique:roles,name'.$request->id
+            'name' => 'required|unique:permissions,name'.$request->id
         ]);
-        $role->update($request->all());
-        return redirect()->route('roles.index')->with('success','Rol actualizado correctamente');
+        $permission->update($request->all());
+        return redirect()->route('permissions.index')->with('success','Permiso actualizado correctamente');
     }
 
     /**
@@ -91,11 +91,11 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id/*Role $role*/)
+    public function destroy($id)
     {
-        /*$role->delete();
-        return redirect()->route('roles.index')->with('success','Rol eliminado correctamente');*/
-        $role = Role::find($id)->delete();
-        return response()->json(['success'=>'Rol eliminado correctamente']);
+        //$permission->delete();
+        $permission = Permission::find($id)->delete();
+        //return redirect()->route('permissions.index')->with('success','Permiso eliminado correctamente');
+        return response()->json(['success'=>'Permiso eliminado correctamente']);
     }
 }

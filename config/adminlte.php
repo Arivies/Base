@@ -274,7 +274,7 @@ return [
                 ],
                 [
                     'text' => 'Permisos',
-                    'url'  => '#',
+                    'url'  => '/admin/permissions',
                 ],
                 [
                     'text' => 'Usuarios',
