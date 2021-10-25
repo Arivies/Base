@@ -2,18 +2,24 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\HomeController;
-use App\Http\Controllers\Roles\RoleController;
-use App\Http\Controllers\Roles\PermissionController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\PermissionController;
+use App\Http\Controllers\Admin\UserController;
 
-Route::get('/', [HomeController::class,'index']);
+Route::get('', [HomeController::class,'index'])->name('dashboard');
 
+Route::resource('roles', RoleController::class)->names('roles');
+Route::resource('permissions', PermissionController::class)->names('permissions');
+Route::resource('users', UserController::class)->names('users');
+
+
+
+/*
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     Route::get('/', [HomeController::class,'index'])->name('dashboard');
 
-
-    /*CRUD ROLES*/
-
+    //CRUD ROLES
     Route::get('/roles', [RoleController::class,'index'])->name('roles.index');
     Route::get('/roles/create', [RoleController::class,'create'])->name('roles.create');
     Route::post('/roles/store', [RoleController::class,'store'])->name('roles.store');
@@ -22,12 +28,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::post('/roles/update/{role}', [RoleController::class,'update'])->name('roles.update');
     Route::post('/roles/destroy/{role}', [RoleController::class,'destroy'])->name('roles.destroy');
 
-
-
-
-    /*CRUD PERMISSIONS*/
-    //Route::resource('permissions', PermissionController::class)->names('permissions');
-
+    //CRUD PERMISSIONS
     Route::get('/permissions', [PermissionController::class,'index'])->name('permissions.index');
     Route::get('/permissions/create',[PermissionController::class,'create'])->name('permissions.create');
     Route::post('/permissions/store',[PermissionController::class,'store'])->name('permissions.store');
@@ -35,8 +36,5 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/permissions/edit/{permission}',[PermissionController::class,'edit'])->name('permissions.edit');
     Route::post('/permissions/update/{permission}',[PermissionController::class,'update'])->name('permissions.update');
     Route::post('/permissions/destroy/{permission}',[PermissionController::class,'destroy'])->name('permissions.destroy');
-
-
-
-
 });
+*/

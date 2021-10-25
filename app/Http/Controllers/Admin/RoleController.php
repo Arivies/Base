@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Roles;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 Use Spatie\Permission\Models\Role;
+Use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -18,7 +19,7 @@ class RoleController extends Controller
     {
         $roles = Role::query()->paginate(5);
 
-        return view('roles.index',compact('roles'))
+        return view('admin.roles.index',compact('roles'))
                 ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -29,7 +30,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('roles.create');
+        $permissions = Permission::all()->pluck('name','id');
+        //dd($permission);
+        return view('admin.roles.create',compact('permissions'));
     }
 
     /**
@@ -40,10 +43,11 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        $roles = $request->validate([
+        $request->validate([
             'name' => 'required|unique:roles'
         ]);
-        Role::create($request->all());
+        $roles = Role::create($request->all());
+        $roles->permissions()->sync($request->input('permissions',[]));//metodo para registrar datos muchos a muchos
         return redirect()->route('roles.index')->with('success','Se agrego rol correctamente');
     }
 
@@ -55,7 +59,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        return view('roles.show',compact('role'));
+        return view('admin.roles.show',compact('role'));
     }
 
     /**
@@ -66,7 +70,9 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        return view('roles.edit',compact('role'));
+        $permissions = Permission::all()->pluck('name','id');
+        $role->load('permissions');
+        return view('admin.roles.edit',compact('role','permissions'));
     }
 
     /**
@@ -78,10 +84,14 @@ class RoleController extends Controller
      */
     public function update(Request $request, Role $role)
     {
-        $request->validate([
+        /*$request->validate([
             'name' => 'required|unique:roles,name'.$request->id
-        ]);
+        ]);*/
+        $role->update($request->only('name'));
+
         $role->update($request->all());
+        $role->permissions()->sync($request->input('permissions',[]));//metodo para registrar datos muchos a muchos
+
         return redirect()->route('roles.index')->with('success','Rol actualizado correctamente');
     }
 
@@ -91,11 +101,11 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id/*Role $role*/)
+    public function destroy(/*$id*/ Role $role)
     {
-        /*$role->delete();
-        return redirect()->route('roles.index')->with('success','Rol eliminado correctamente');*/
-        $role = Role::find($id)->delete();
-        return response()->json(['success'=>'Rol eliminado correctamente']);
+        $role->delete();
+        return redirect()->route('roles.index')->with('success','Rol eliminado correctamente');
+        /*$role = Role::find($id)->delete();
+        return response()->json(['success'=>'Rol eliminado correctamente']);*/
     }
 }

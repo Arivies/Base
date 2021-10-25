@@ -278,7 +278,7 @@ return [
                 ],
                 [
                     'text' => 'Usuarios',
-                    'url'  => '#',
+                    'url'  => '/admin/users',
                 ],
 /*                [
                     'text'    => 'level_one',

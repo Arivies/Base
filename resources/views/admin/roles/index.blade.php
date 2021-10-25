@@ -1,12 +1,12 @@
 @extends('adminlte::page')
 
-@section('title', 'Permisos')
+@section('title', 'Roles')
 
 @section('content_header')
     <div class="container">
         <div class="d-flex flex-row ">
             <div class="p-2 col-2" style="height: 45px;">
-                <h1>Permisos</h1>
+                <h1>Roles</h1>
             </div>
             <div class="p-2 col-sm-10" style="height: 45px;">
                 @if ($mensaje = Session::get('success'))
@@ -22,32 +22,43 @@
 @section('content')
 
 <div class="container mt-1">
-    <a class="btn btn-sm btn-secondary" href="{{ route('permissions.create') }}">Agregar Permiso</a>
+    <a class="btn btn-sm btn-secondary" href="{{ route('roles.create') }}">Agregar Rol</a>
     <a class="btn btn-sm btn-secondary" href="{{ route('dashboard') }}">Regresar</a>
     <table class="table mt-3">
         <thead>
-            <th>Nombre Permiso</th>
+            <th>Nombre Rol</th>
+            <th>Permisos</th>
             <th class="d-flex justify-content-end">acciones</th>
         </thead>
         <tbody>
-            @foreach ($permissions as $permission)
+            @foreach ($roles as $role)
                 <tr>
-                    <td>{{$permission->name}}</td>
+                    <td>{{$role->name}}</td>
+                    <td>
+                        @forelse ($role->permissions as $permission)
+                            <span class="badge badge-secondary">{{ $permission->name}}</span>
+                        @empty
+                            <span class="badge badge-warning">Rol sin permisos asignados</span>
+                        @endforelse
+                    </td>
                     <td class="d-flex justify-content-end">
-                        <a class="btn btn-sm btn-info"  href="{{ route('permissions.show',$permission->id ) }}">VER</a>
-                        <a class="btn btn-sm btn-warning ml-1" href="{{ route('permissions.edit',$permission->id ) }}">EDITAR</a>
-                        {{-- <form action="{{ route('permissions.destroy',$permission->id) }}" method="POST">
+                        <a class="btn btn-sm btn-info"  href="{{ route('roles.show',$role->id ) }}">VER</a>
+                        <a class="btn btn-sm btn-warning ml-1" href="{{ route('roles.edit',$role->id )}}">EDITAR</a>
+                          <form action="{{ route('roles.destroy',$role->id) }}" method="POST" class="elimina-role">
+                            @method('DELETE')
                             @csrf
+                            <input type="hidden" name="_id" id="_id" value="{{$role->id}}">
                             <button type="submit" class="btn btn-sm btn-danger ml-1"> ELIMINAR</button>
-                        </form> --}}
-                        <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
-                        <a href="javascript:void(0)" data-id="{{ $permission->id }}" class="btn btn-sm ml-1 btn-danger" onclick="eliminarPermiso(event.target)">Eliminar</a>
+                        </form>
+                        {{-- <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
+                        <a href="javascript:void(0)" data-id="{{ $role->id }}" class="btn btn-sm ml-1 btn-danger" onclick="eliminarRol(event.target)">Eliminar</a> --}}
+
                     </td>
                 </tr>
             @endforeach
         </tbody>
     </table>
-    {{$permissions->links()}}
+    {{$roles->links()}}
 </div>
 @stop
 
@@ -61,16 +72,39 @@
         $(document).ready(function(){
             $("#msg").fadeOut(7000);
 
+            $('.elimina-role').submit(function(e){
+                e.preventDefault();
+
+                Swal.fire({
+                title: 'Deseas eliminar el rol?',
+                text: "Una vez eliminado ya no se revertira!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, Deseo eliminar!'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        this.submit();
+                    }
+                })
+            });
+
         });
 
-        function eliminarPermiso(event){
+
+
+
+
+/*
+        function eliminarRol(event){
 
             let id  = $(event).data("id");
-            let _url = `/admin/permissions/destroy/${id}`;
+            let _url = `/admin/roles/destroy/${id}`;
             let _token   = $('input[name="_token"]').attr('value');
 
             Swal.fire({
-                title: 'Deseas eliminar el permiso?',
+                title: 'Deseas eliminar el rol?',
                 text: "Una vez eliminado ya no se revertira!",
                 icon: 'warning',
                 showCancelButton: true,
@@ -91,7 +125,6 @@
                                 title: 'Eliminado Correctamente!',
                                 showConfirmButton: false
                             })
-                            //$(location).attr('href','{{ route('permissions.index')}}');
                             setTimeout ("redireccionar()", 1300);
                         }
                     });
@@ -100,11 +133,12 @@
 
             })
 
-        }
+            }*/
 
-        function redireccionar(){
-            $(location).attr('href','{{ route('permissions.index')}}');
-        }
+            function redireccionar(){
+            $(location).attr('href','{{ route('roles.index')}}');
+            }
+
 
     </script>
 @stop

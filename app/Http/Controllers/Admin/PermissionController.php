@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Roles;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -18,7 +18,7 @@ class PermissionController extends Controller
     {
         $permissions = Permission::query()->paginate(5);
 
-        return view('permissions.index',compact('permissions'))
+        return view('admin.permissions.index',compact('permissions'))
                 ->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
@@ -29,7 +29,7 @@ class PermissionController extends Controller
      */
     public function create()
     {
-        return view('permissions.create');
+        return view('admin.permissions.create');
     }
 
     /**
@@ -55,7 +55,7 @@ class PermissionController extends Controller
      */
     public function show(Permission $permission)
     {
-        return view('permissions.show',compact('permission'));
+        return view('admin.permissions.show',compact('permission'));
     }
 
     /**
@@ -66,7 +66,7 @@ class PermissionController extends Controller
      */
     public function edit(Permission $permission)
     {
-        return view('permissions.edit',compact('permission'));
+        return view('admin.permissions.edit',compact('permission'));
     }
 
     /**
@@ -91,11 +91,11 @@ class PermissionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Permission $permission/*$id*/)
     {
-        //$permission->delete();
-        $permission = Permission::find($id)->delete();
-        //return redirect()->route('permissions.index')->with('success','Permiso eliminado correctamente');
-        return response()->json(['success'=>'Permiso eliminado correctamente']);
+        $permission->delete();
+        return redirect()->route('permissions.index')->with('success','Permiso eliminado correctamente');
+        //$permission = Permission::find($id)->delete();
+        //return response()->json(['success'=>'Permiso eliminado correctamente']);
     }
 }

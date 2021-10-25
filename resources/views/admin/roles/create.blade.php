@@ -18,8 +18,23 @@
                 <a class="btn btn-secondary btn-sm ml-1" href="{{ route('roles.index') }}">REGRESAR</a>
              </div>
         </div>
+
+        <div class="row">
+            <div class="card mt-5">
+                <div class="card-header bg-secondary"><strong>Seleccione Permisos</strong></div>
+                <div class="card-body">
+                    @foreach ($permissions as $id => $permission)
+                        <label for="name" class="col-sm-10">{{ $permission }}</label>
+                        <input type="checkbox" class="form-check-input col-sm-2 ml-1" name="permissions[]" value="{{ $id}}">
+                    @endforeach
+                </div>
+            </div>
+        </div>
     </form>
 </div>
+
+    {{-- </div>
+</div> --}}
 
 @stop
 
