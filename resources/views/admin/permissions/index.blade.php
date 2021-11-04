@@ -22,7 +22,10 @@
 @section('content')
 
 <div class="container mt-1">
-    <a class="btn btn-sm btn-secondary" href="{{ route('permissions.create') }}">Agregar Permiso</a>
+    @can('permissions.create')
+        <a class="btn btn-sm btn-secondary" href="{{ route('permissions.create') }}">Agregar Permiso</a>
+    @endcan
+
     <a class="btn btn-sm btn-secondary" href="{{ route('dashboard') }}">Regresar</a>
     <table class="table mt-3">
         <thead>
@@ -34,13 +37,21 @@
                 <tr>
                     <td>{{$permission->name}}</td>
                     <td class="d-flex justify-content-end">
-                        <a class="btn btn-sm btn-info"  href="{{ route('permissions.show',$permission->id ) }}">VER</a>
-                        <a class="btn btn-sm btn-warning ml-1" href="{{ route('permissions.edit',$permission->id ) }}">EDITAR</a>
-                        <form action="{{ route('permissions.destroy',$permission->id) }}" method="POST" class="elimina-permission">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger ml-1"> ELIMINAR</button>
-                        </form>
+                        @can('permissions.show')
+                            <a class="btn btn-sm btn-info"  href="{{ route('permissions.show',$permission->id ) }}">VER</a>
+                        @endcan
+
+                        @can('permissions.edit')
+                           <a class="btn btn-sm btn-warning ml-1" href="{{ route('permissions.edit',$permission->id ) }}">EDITAR</a>
+                        @endcan
+
+                        @can('permissions.destroy')
+                            <form action="{{ route('permissions.destroy',$permission->id) }}" method="POST" class="elimina-permission">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger ml-1"> ELIMINAR</button>
+                            </form>
+                        @endcan
                         {{-- <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
                         <a href="javascript:void(0)" data-id="{{ $permission->id }}" class="btn btn-sm ml-1 btn-danger" onclick="eliminarPermiso(event.target)">Eliminar</a> --}}
                     </td>

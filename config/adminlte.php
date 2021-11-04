@@ -63,9 +63,16 @@ return [
     | https://github.com/jeroennoten/Laravel-AdminLTE/wiki/Basic-Configuration
     |
     */
-
+/*
     'usermenu_enabled' => true,
     'usermenu_header' => false,
+    'usermenu_header_class' => 'bg-primary',
+    'usermenu_image' => false,
+    'usermenu_desc' => false,
+    'usermenu_profile_url' => false,*/
+
+    'usermenu_enabled' => true,
+    'usermenu_header' => true,
     'usermenu_header_class' => 'bg-primary',
     'usermenu_image' => false,
     'usermenu_desc' => false,
@@ -271,14 +278,17 @@ return [
                 [
                     'text' => 'Roles',
                     'url'  => '/admin/roles',
+                    'can'  => 'roles.index'
                 ],
                 [
                     'text' => 'Permisos',
                     'url'  => '/admin/permissions',
+                    'can'  => 'permissions.index'
                 ],
                 [
                     'text' => 'Usuarios',
                     'url'  => '/admin/users',
+                    'can'  => 'users.index'
                 ],
 /*                [
                     'text'    => 'level_one',

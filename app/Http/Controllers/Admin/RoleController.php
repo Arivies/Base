@@ -10,6 +10,15 @@ Use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('can:roles.index')->only(['index']);
+        $this->middleware('can:roles.create')->only(['create','store']);
+        $this->middleware('can:roles.edit')->only(['edit','update']);
+        $this->middleware('can:roles.show')->only(['show']);
+        $this->middleware('can:roles.destroy')->only(['destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -59,6 +68,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
+        $role->load('permissions');
         return view('admin.roles.show',compact('role'));
     }
 
@@ -89,7 +99,7 @@ class RoleController extends Controller
         ]);*/
         $role->update($request->only('name'));
 
-        $role->update($request->all());
+        //$role->update($request->all());
         $role->permissions()->sync($request->input('permissions',[]));//metodo para registrar datos muchos a muchos
 
         return redirect()->route('roles.index')->with('success','Rol actualizado correctamente');

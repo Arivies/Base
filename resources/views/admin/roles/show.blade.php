@@ -31,6 +31,16 @@
                 <span class="col-sm-4">{{$role->updated_at}}</span>
             </div>
             <div class="row">
+            <label for="" class="col-sm-2">Permisos</label>
+                <div class="col-sm-10">
+                    @forelse ($role->permissions as $permission)
+                        <span class="badge rounded-pill bg-dark text-white">{{ $permission->name }}</span>
+                    @empty
+                        <span class="badge badge-danger bg-danger">Sin Permisos asignados</span>
+                    @endforelse
+                </div>
+            </div>
+            <div class="row mt-2">
                 <a class="btn btn-secondary btn-sm ml-2" href="{{ route('roles.index') }}">REGRESAR</a>
             </div>
         </div>

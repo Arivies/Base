@@ -22,11 +22,14 @@
 @section('content')
 
 <div class="container mt-1">
-    <a class="btn btn-sm btn-secondary" href="{{ route('roles.create') }}">Agregar Rol</a>
+    @can('roles.create')
+        <a class="btn btn-sm btn-secondary" href="{{ route('roles.create') }}">Agregar Rol</a>
+    @endcan
+
     <a class="btn btn-sm btn-secondary" href="{{ route('dashboard') }}">Regresar</a>
     <table class="table mt-3">
         <thead>
-            <th>Nombre Rol</th>
+            <th>Rol</th>
             <th>Permisos</th>
             <th class="d-flex justify-content-end">acciones</th>
         </thead>
@@ -42,14 +45,22 @@
                         @endforelse
                     </td>
                     <td class="d-flex justify-content-end">
-                        <a class="btn btn-sm btn-info"  href="{{ route('roles.show',$role->id ) }}">VER</a>
-                        <a class="btn btn-sm btn-warning ml-1" href="{{ route('roles.edit',$role->id )}}">EDITAR</a>
-                          <form action="{{ route('roles.destroy',$role->id) }}" method="POST" class="elimina-role">
-                            @method('DELETE')
-                            @csrf
-                            <input type="hidden" name="_id" id="_id" value="{{$role->id}}">
-                            <button type="submit" class="btn btn-sm btn-danger ml-1"> ELIMINAR</button>
-                        </form>
+                        @can('roles.show')
+                            <a class="btn btn-sm btn-info"  href="{{ route('roles.show',$role->id ) }}">VER</a>
+                        @endcan
+
+                        @can('roles.edit')
+                            <a class="btn btn-sm btn-warning ml-1" href="{{ route('roles.edit',$role->id )}}">EDITAR</a>
+                        @endcan
+
+                        @can('roles.destroy')
+                            <form action="{{ route('roles.destroy',$role->id) }}" method="POST" class="elimina-role">
+                                @method('DELETE')
+                                @csrf
+                                <input type="hidden" name="_id" id="_id" value="{{$role->id}}">
+                                <button type="submit" class="btn btn-sm btn-danger ml-1"> ELIMINAR</button>
+                            </form>
+                        @endcan
                         {{-- <input type="hidden" name="_token" id="token" value="{{ csrf_token() }}">
                         <a href="javascript:void(0)" data-id="{{ $role->id }}" class="btn btn-sm ml-1 btn-danger" onclick="eliminarRol(event.target)">Eliminar</a> --}}
 
@@ -135,9 +146,9 @@
 
             }*/
 
-            function redireccionar(){
+            /*function redireccionar(){
             $(location).attr('href','{{ route('roles.index')}}');
-            }
+            }*/
 
 
     </script>
